@@ -1,13 +1,22 @@
-String createOrderMessage () {
-  var order = fetchUserOrder();
-  return 'Your order is: $order';
-}
+import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
 
-Future<String> fetchUserOrder() {
-  // Imagine that this function is more complex and slow
-  return Future.delayed(Duration(seconds: 4), () => 'Large Latte');
-}
+void main() => runApp(MyApp());
 
-void main () {
-  print(createOrderMessage());
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final wordPair = WordPair.random();
+    return MaterialApp(
+      title: 'Welcome to Flutter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Welcome to Flutter'),
+        ),
+        body: Center(
+          child: Text(wordPair.asPascalCase),
+        ),
+      ),
+    );
+  }
 }
