@@ -8,7 +8,6 @@ class RegistrationForm{
     this.age = age;
   }
   void printDetail(){
-    print('Name\t\t\t\tEmail\t\t\t\tPhone No.\t\tAge');
-    print('${fullName}\t\t\t\t${email}\t\t\t\t${phoneNo}\t\t${age}');
+    print('Name: ${fullName}\nEmail: ${email}\nPhone No.: ${phoneNo}\nAge: ${age}');
   }
 }
