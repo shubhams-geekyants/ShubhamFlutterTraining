@@ -1,9 +1,10 @@
+import 'dart:io';
 import 'package:testapp/Product.dart';
 import 'package:testapp/RegistrationForm.dart';
 import 'package:testapp/toUpperCase.dart';
-import 'dart:io';
 import 'package:testapp/printTable.dart';
 import 'package:testapp/maxFirst.dart';
+import 'package:testapp/nandniMilkParlour.dart';
 
 void main(List<String> arguments) {
   int m;
@@ -40,6 +41,30 @@ void main(List<String> arguments) {
     printTable(number);
   }else if(m == 5){
     print(getMaxFirst(3478564376));
+   }else if(m == 6){
+     int x;
+     print('Enter number of classes of milk:-');
+     x = int.parse(stdin.readLineSync());
+     var milkList = [];
+     print('Enter each class quantity');
+    for(var i = 0; i < x; i++){
+      var temp;
+      temp = int.parse(stdin.readLineSync());
+      milkList.add(temp);
+    }
+    var newList = List.from(milkList);
+    print('Enter required ammount:- ');
+    var requiredMilk = int.parse(stdin.readLineSync());
+    dynamic bill = getBill(requiredMilk, newList);
+    if(bill.length > 0){
+      print('Thank you, your order for 150 milk packets are accepted');
+      print('Class\tTotal\tBilled\tRem.');
+      for(var i = 0; i < milkList.length; i++){
+        print('${i+1}\t${milkList[i]}\t${bill[milkList[i]]}\t${milkList[i] - bill[milkList[i]]}');
+      }
+    }else{
+      print('Cannot deliver');
+    }
   }else{
     print('Invalid optio :-( \nGood Bye  :-)');
   }
