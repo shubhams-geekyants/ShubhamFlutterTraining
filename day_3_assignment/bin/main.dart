@@ -30,7 +30,7 @@ void main(List<String> arguments) {
       temp = int.parse(stdin.readLineSync());
       chocolateList.add(temp);
       print('Have more packets (Y/N)');
-      tlest = stdin.readLineSync();
+      test = stdin.readLineSync();
     }
     for(var i = 0; i < chocolateList.length; i++){
       print('P${i+1}: ${buyOrNot(chocolateList[i])?'YES':'NO'}');
@@ -41,7 +41,21 @@ void main(List<String> arguments) {
   }else if(m == 4){
     
   }else if(m == 5){
-    
+    var random = Random();
+    var post  = {
+      1: 'p1',
+      2: 'p2',
+      3: 'p3',
+      4: 'p4',
+      5: 'p5',
+      6: 'p6',
+      7: 'p7',
+      8: 'p8',
+      9: 'p9',
+      10: 'p10'
+    };
+    var luckyNumber =  random.nextInt(11);
+    print('Lucky Number: ${luckyNumber}, Post: ${post[luckyNumber]}');
   }else{
     print('Invalid optio :-( \nGood Bye  :-)');
   }
