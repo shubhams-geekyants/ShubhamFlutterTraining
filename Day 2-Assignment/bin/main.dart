@@ -13,6 +13,7 @@ void main(List<String> arguments) {
   print('3 for Q3');
   print('4 for Q4');
   print('5 for Q5');
+  print('6 for Q6');
   m = int.parse(stdin.readLineSync().toString());
   if(m == 1){
     var newProduct = Product('Test', true, 20000, 10);
