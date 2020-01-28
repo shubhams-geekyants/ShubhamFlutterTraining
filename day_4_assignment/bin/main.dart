@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:day_4_assignment/ascending_order.dart';
+import 'package:day_4_assignment/billing.dart';
 import 'package:day_4_assignment/shopping_mall.dart';
 
 void main(List<String> arguments) {
@@ -26,7 +27,8 @@ void main(List<String> arguments) {
     }
     print('');
   }else if(m == 2){
-
+    var billingSystem = Billing();
+    billingSystem.begin();
   }else if(m == 3){
     int noOfCounters, maxNoOfPersonPerCounter;
     stdout.write('Enter No. of counters: ');
