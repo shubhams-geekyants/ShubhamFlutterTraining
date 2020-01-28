@@ -61,7 +61,7 @@ void main(List<String> arguments) {
       print('Thank you, your order for 150 milk packets are accepted');
       print('Class\tTotal\tBilled\tRem.');
       for(var i = 0; i < milkList.length; i++){
-        print('${i+1}\t${milkList[i]}\t${bill[milkList[i]]}\t${milkList[i] - bill[milkList[i]]}');
+        print('${i+1}\t\t${milkList[i]}\t\t${bill[milkList[i]]}\t\t${milkList[i] - bill[milkList[i]]}');
       }
     }else{
       print('Cannot deliver');
