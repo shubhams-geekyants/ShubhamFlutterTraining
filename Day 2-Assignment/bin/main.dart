@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:testapp/Product.dart';
-import 'package:testapp/RegistrationForm.dart';
-import 'package:testapp/toUpperCase.dart';
-import 'package:testapp/printTable.dart';
-import 'package:testapp/maxFirst.dart';
-import 'package:testapp/nandniMilkParlour.dart';
+import 'package:testapp/product.dart';
+import 'package:testapp/registration_form.dart';
+import 'package:testapp/to_upper_case.dart';
+import 'package:testapp/print_table.dart';
+import 'package:testapp/max_first.dart';
+import 'package:testapp/nandni_milkParlour.dart';
 
 void main(List<String> arguments) {
   int m;

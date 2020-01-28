@@ -1,4 +1,4 @@
-bool getTaxi(double distace){
+bool getTaxi(double distance){
   // ignore: omit_local_variable_types
   double onlineTaxiBaseFair = 40.0, onlineTaxiAddonFair = 10.0;
   // ignore: omit_local_variable_types
@@ -7,15 +7,15 @@ bool getTaxi(double distace){
   double baseDistance = 20.0;
   // ignore: omit_local_variable_types
   double onlineFair = 0, offlineFair = 0;
-  if(distace > baseDistance) {
+  if(distance > baseDistance) {
     onlineFair += onlineTaxiBaseFair * baseDistance;
     offlineFair += classicTaxiBaseFair * baseDistance;
-    distace -= baseDistance;
-    onlineFair += distace * onlineTaxiAddonFair;
-    offlineFair += (distace / classicTaxiSpeed * 60)*classicTaxiAddonFair + distace * classicTaxiAddonFair;
+    distance -= baseDistance;
+    onlineFair += distance * onlineTaxiAddonFair;
+    offlineFair += (distance / classicTaxiSpeed * 60)*classicTaxiAddonFair + distance * classicTaxiAddonFair;
   } else {
-    onlineFair += onlineTaxiBaseFair * distace;
-    offlineFair += classicTaxiBaseFair * distace;
+    onlineFair += onlineTaxiBaseFair * distance;
+    offlineFair += classicTaxiBaseFair * distance;
   }
   if(onlineFair > offlineFair){
     return false;
