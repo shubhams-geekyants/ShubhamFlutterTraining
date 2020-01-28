@@ -15,6 +15,7 @@ void main(List<String> arguments) {
   menu = int.parse(stdin.readLineSync().toString());
   if(menu == 1){
     double distance;
+    print('Entert distance:');
     distance = double.parse(stdin.readLineSync());
     print(getTaxi(distance)?'Online':'Offline');
   }else if(menu == 2){
