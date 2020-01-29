@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class TicTac{
-  var state = List().toList();
+  var state = [];
   var userChance = 1;
   TicTac(){
     for(var i = 0; i < 3; i++){
