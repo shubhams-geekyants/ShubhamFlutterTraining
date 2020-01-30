@@ -1,16 +1,26 @@
-import 'package:University/brance.dart';
-import 'package:University/course.dart';
-import 'package:University/student.dart';
+import 'dart:io';
 import 'package:University/university.dart';
 
 
 void main(List<String> arguments) {
+  int menu;
   var newUniversity = University('TestU', '123', 100, 100000);
-  var newCourse = Course('TestC','213',4);
-  var newBranch = Branch('TestB','234','Tetsstshs Kjdh');
-  var newStudent = Student('TestS','8e7y878347','91793734748', 'shuabhshj@shdh.com');
-  print(newUniversity.name);
-  print(newBranch.name);
-  print(newCourse.name);
-  print(newStudent.name);
+  print('Choose menu:');
+  print('''
+  1. Print current open branches
+  2. Location based
+  3. Time based''');
+  menu = int.parse(stdin.readLineSync());
+  if(menu == 1){
+   newUniversity.printOpenBranch(true, DateTime.now().toUtc());
+  }else if(menu == 2){
+    print('Enter location: ');
+    var location = stdin.readLineSync();
+    newUniversity.printOpenBranch(false, DateTime.now().toUtc(),location);
+  }else{
+    print('Enter time (HH:MM):');
+    var dateTime = stdin.readLineSync();
+    dateTime = '2000-01-01 ${dateTime}:00';
+    newUniversity.printOpenBranch(true, DateTime.parse(dateTime).toUtc());
+  }
 }
