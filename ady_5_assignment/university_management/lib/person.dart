@@ -41,9 +41,9 @@ class Person extends Address{
     _role = role;
   }
 
-  // getter method 'getDetail' return data
+  // getter method 'details' return data
   @override
-  Map get details{
+  Map get details {
     var dataToReturn = {
       'personId': _id,
       'name': _name,
@@ -52,13 +52,10 @@ class Person extends Address{
       'age': _age,
       'address': super.details,
     };
-    if(_phoneNo != null){
-      dataToReturn['phoneNo'] = _phoneNo;
-    }
+    if( _phoneNo != null ) dataToReturn['phoneNo'] = _phoneNo;
     return dataToReturn;
   }
-
-  // 'updateData' method update data
+  // 'update' method update data
   @override
   void update({
     int age,
@@ -77,18 +74,10 @@ class Person extends Address{
         state: state,
         postalCode: postalCode,
         country: country);
-    if(age != null){
-      _age = age;
-    }
-    if(email != null){
-      _email = email;
-    }
-    if(name != null){
-      _name = name;
-    }
-    if(phoneNo != null){
-      _phoneNo = phoneNo;
-    }
+      _age ??= age;
+      _email ??= email;
+      _name ??= name;
+      _phoneNo ??= phoneNo;
   }
 
 }

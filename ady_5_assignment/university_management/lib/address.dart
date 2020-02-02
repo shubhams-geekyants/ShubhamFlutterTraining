@@ -16,7 +16,7 @@ class Address{
     @required String country,
     @required String postalCode,
     @required String state,
-    String street
+    String street,
   }) {
     if(city == null) throw('\'city\' is required');
     if(country == null) throw('\'country\' is required');
@@ -29,7 +29,7 @@ class Address{
     _state = state;
   }
 
-  // getter method 'getData' return address
+  // getter method 'details' return address
   Map get details {
     var dateToReturn = {
       'state': _state,
@@ -37,13 +37,11 @@ class Address{
       'postalCode': _postalCode,
       'country': _country
     };
-    if(_street != null){
-      dateToReturn['street'] = _street;
-    }
+    if (_street != null) dateToReturn['street'] = _street;
     return dateToReturn;
   }
 
-  // Method 'updateData' to update address
+  // Method 'update' to update address
   void update({
     String street,
     String city,
@@ -51,21 +49,11 @@ class Address{
     String postalCode,
     String country
   }) {
-    if( street != null) {
-      _street = street;
-    }
-    if( city != null) {
-      _city = city;
-    }
-    if( state != null) {
-      _state = state;
-    }
-    if( postalCode != null) {
-      _postalCode = postalCode;
-    }
-    if( country != null) {
-      _country = country;
-    }
+    _street ??= street;
+    _city ??= city;
+    _state ??= state;
+    _postalCode ??= postalCode;
+    _country = country;
   }
 
 }

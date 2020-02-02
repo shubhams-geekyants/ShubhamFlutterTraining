@@ -12,10 +12,10 @@ class Professor extends Person{
   * _id store professor ID
   * */
 
-  String _currentUniversityId, _currentBranch, _proficiency, _id;
+  String _currentUniversityId, _currentBranchId, _proficiency, _id;
   double _salary;
   bool _isEmployee;
-  List<String> _skills;
+  Set<String> _skills;
   int _experienceInYears;
 
   Professor({
@@ -47,8 +47,102 @@ class Professor extends Person{
     _isEmployee = false;
     _proficiency = proficiency;
     _salary = 0;
-    _skills = <String>[].toList();
+    _skills = <String>{};
     _experienceInYears = experienceInYears;
   }
 
+  // getter method 'detail' return data
+  @override
+  Map get details {
+    var dataToReturn = super.details;
+    dataToReturn['experienceInYears'] = _experienceInYears;
+    dataToReturn['skills'] = _skills;
+    dataToReturn['professorId'] = _id;
+    dataToReturn['proficiency'] = _proficiency;
+    if(_isEmployee){
+      dataToReturn['universityId']=_currentUniversityId;
+      dataToReturn['branchId'] = _currentBranchId;
+      dataToReturn['salary'] = _salary;
+    }
+    return dataToReturn;
+  }
+
+  // method 'update' update data
+  @override
+  void update({
+    int age,
+    String city,
+    String country,
+    String email,
+    int experienceInYears,
+    String name,
+    String phoneNo,
+    String postalCode,
+    String proficiency,
+    double salary,
+    String state,
+    String street}) {
+    super.update(
+        age: age,
+        city: city,
+        country: country,
+        email: email,
+        name: name,
+        postalCode: postalCode,
+        phoneNo: phoneNo,
+        state: state,
+        street: street);
+    _experienceInYears ??= experienceInYears;
+    _proficiency ??= proficiency;
+    _salary ??= salary;
+  }
+
+  // some util function to update skills
+  set _addSkill(String skill){
+    _skills.add(skill);
+  }
+  set _addSkills(List<String> skills){
+    skills.forEach((value) => _skills.add(value));
+  }
+  set _removeSkill(String skill){
+    _skills.remove(skill);
+  }
+  set _removeSkills(List<String> skills){
+    _skills.removeAll(skills);
+  }
+
+  // method 'updateSkills' update skills
+  // parameters
+  //  1. operation -> what operation to perform on _skills list.
+  //                  Operations are ADD, REMOVE
+  //  2. skill/skills -> list or string of skill
+  void updateSkills({@required String operation, String skill, List<String> skills}){
+    operation = operation.toUpperCase();
+    if(skills != null && skill != null) {
+      throw('Only one prameter \'skill\' '
+        'or \'skills\' is allowed');
+    }
+    if(skills == null && skill == null) {
+      throw('One prameter \'skill\' '
+          'or \'skills\' is required');
+    }
+    switch(operation){
+      case 'ADD':
+        if(skill  != null){
+          _addSkill = skill;
+        }else{
+          _addSkills = skills;
+        }
+        break;
+      case 'REMOVE':
+        if(skill  != null){
+          _removeSkill = skill;
+        }else{
+          _removeSkills = skills;
+        }
+        break;
+      default: throw('Invalid operation ${operation}. '
+          'Only ADD, REMOVE operation are allowed');
+    }
+  }
 }

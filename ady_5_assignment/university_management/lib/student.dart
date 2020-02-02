@@ -15,9 +15,10 @@ class Student extends Person{
   * _isBlackListed store student is blacklisted or not
   * */
 
-  String _id, _currentUniversityId, _currentBranchId;
+  String _id, _currentUniversityId, _currentBranchId, _currentCourseId;
+  String _highestEducation;
   double _avgMark;
-  int _yearsInCourse, _pastYearsInCourse;
+  int _pastYearsInCourse;
   bool _isEnrolled, _isBlackListed;
 
   // constructor used for init the value of this and super class both,
@@ -28,6 +29,7 @@ class Student extends Person{
     @required String city,
     @required String country,
     @required String email,
+    @required String highestEducation,
     @required String name,
     @required String postalCode,
     String phoneNo,
@@ -45,31 +47,34 @@ class Student extends Person{
       street: street,
       role: 'STUDENT',
   ){
+    if(highestEducation == null) throw('\'highestEducation\' is required');
     _avgMark = 0;
+    _highestEducation = highestEducation;
     _id = hashCode.toString();
     _isEnrolled = false;
     _isBlackListed = false;
-    _yearsInCourse = 0;
     _pastYearsInCourse = 0;
   }
 
-  // getter method 'getDetail' return data
+  // getter method 'details' return data
   @override
   Map get details {
     var dataToReturn = super.details;
     dataToReturn['avgMark'] = _avgMark;
+    dataToReturn['highestEducation'] = _highestEducation;
     dataToReturn['isBlackListed'] = _isBlackListed;
     dataToReturn['isEnrolled'] = _isEnrolled;
     if(_isEnrolled){
       dataToReturn['currentUniversityId'] = _currentUniversityId;
       dataToReturn['currentBranchId'] = _currentBranchId;
-      dataToReturn['yearsInCourse'] = _yearsInCourse;
       dataToReturn['pastYearsInCourse'] = _pastYearsInCourse;
+      dataToReturn['courseId'] = _currentCourseId;
     }
     dataToReturn['studentId'] = _id;
     return dataToReturn;
   }
 
+  // Method 'update' to update student details
   @override
   void update({
     int age,
@@ -78,7 +83,9 @@ class Student extends Person{
     String branchId,
     String city,
     String country,
+    String courseId,
     String email,
+    String highestEducation,
     String name,
     int pastYears,
     String postalCode,
@@ -97,25 +104,16 @@ class Student extends Person{
         phoneNo: phoneNo,
         state: state,
         street: street);
-    if( avgMark != null){
-      _avgMark = avgMark;
-    }
-    if( blackListed != null){
-      _isBlackListed = blackListed;
-    }
+    _avgMark ??= avgMark;
+    _highestEducation ??= highestEducation;
+    _isBlackListed ??= blackListed;
     if(!_isEnrolled && (branchId != null || pastYears != null || universityId != null)){
       throw('Student not enrolled for any unversity');
     }else{
-      if( branchId != null ){
-        _currentBranchId = branchId;
-      }
-      if( pastYears != null ){
-        _pastYearsInCourse = pastYears;
-      }
-      if( universityId != null){
-        _currentUniversityId = universityId;
-      }
+        _currentBranchId ??= branchId;
+        _pastYearsInCourse ??= pastYears;
+        _currentUniversityId ??= universityId;
+        _currentCourseId ??= courseId;
     }
   }
-
 }
