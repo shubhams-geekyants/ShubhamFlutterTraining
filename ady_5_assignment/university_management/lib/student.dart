@@ -18,7 +18,7 @@ class Student extends Person{
   String _id, _currentUniversityId, _currentBranchId, _currentCourseId;
   String _highestEducation;
   double _avgMark;
-  int _pastYearsInCourse;
+  int _passedYearsInCourse;
   bool _isEnrolled, _isBlackListed;
 
   // constructor used for init the value of this and super class both,
@@ -29,7 +29,7 @@ class Student extends Person{
     @required String city,
     @required String country,
     @required String email,
-    @required String highestEducation,
+    String highestEducation,
     @required String name,
     @required String postalCode,
     String phoneNo,
@@ -47,14 +47,16 @@ class Student extends Person{
       street: street,
       role: 'STUDENT',
   ){
-    if(highestEducation == null) throw('\'highestEducation\' is required');
     _avgMark = 0;
     _highestEducation = highestEducation;
     _id = hashCode.toString();
     _isEnrolled = false;
     _isBlackListed = false;
-    _pastYearsInCourse = 0;
+    _passedYearsInCourse = 0;
   }
+
+  // getter 'studentId' return student id
+  String get studentId => _id;
 
   // getter method 'details' return data
   @override
@@ -65,9 +67,9 @@ class Student extends Person{
     dataToReturn['isBlackListed'] = _isBlackListed;
     dataToReturn['isEnrolled'] = _isEnrolled;
     if(_isEnrolled){
-      dataToReturn['currentUniversityId'] = _currentUniversityId;
-      dataToReturn['currentBranchId'] = _currentBranchId;
-      dataToReturn['pastYearsInCourse'] = _pastYearsInCourse;
+      dataToReturn['universityId'] = _currentUniversityId;
+      dataToReturn['branchId'] = _currentBranchId;
+      dataToReturn['pastYearsInCourse'] = _passedYearsInCourse;
       dataToReturn['courseId'] = _currentCourseId;
     }
     dataToReturn['studentId'] = _id;
@@ -107,13 +109,24 @@ class Student extends Person{
     _avgMark ??= avgMark;
     _highestEducation ??= highestEducation;
     _isBlackListed ??= blackListed;
-    if(!_isEnrolled && (branchId != null || pastYears != null || universityId != null)){
+    _passedYearsInCourse ??= pastYears;
+    if(!_isEnrolled && (branchId != null || courseId != null || universityId != null)){
       throw('Student not enrolled for any unversity');
     }else{
         _currentBranchId ??= branchId;
-        _pastYearsInCourse ??= pastYears;
         _currentUniversityId ??= universityId;
         _currentCourseId ??= courseId;
     }
+  }
+
+  void enroll({
+    String universityId,
+    String branchId,
+    String courseId}){
+    _currentUniversityId = universityId;
+    _currentBranchId = branchId;
+    _currentCourseId = courseId;
+    _passedYearsInCourse = 0;
+    _isEnrolled = true;
   }
 }

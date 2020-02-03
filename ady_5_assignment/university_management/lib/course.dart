@@ -15,9 +15,8 @@ class Course{
     @required String name,
     @required int duration
   }){
-
-    if(name != null) throw('\'name\' is required');
-    if(duration != null) throw('\'duration\' is required');
+    if(name == null) throw('\'name\' is required');
+    if(duration == null) throw('\'duration\' is required');
 
     _id = hashCode.toString();
     _name = name;

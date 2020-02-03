@@ -26,7 +26,7 @@ class Professor extends Person{
     int experienceInYears = 0,
     @required String name,
     @required String postalCode,
-    String proficiency,
+    @required String proficiency,
     String phoneNo,
     @required String state,
     String street,
@@ -48,8 +48,11 @@ class Professor extends Person{
     _proficiency = proficiency;
     _salary = 0;
     _skills = <String>{};
-    _experienceInYears = experienceInYears;
+    _experienceInYears ??= experienceInYears;
   }
+
+  // getter method [professorId] return [_id]
+  String get professorId => _id;
 
   // getter method 'detail' return data
   @override

@@ -50,7 +50,7 @@ class University extends Address{
       'name': _name,
       'email': _email,
       'branches': _branches,
-      'cources': _courses,
+      'courses': _courses,
       'address': address
     };
     if( _phoneNo != null ) dataToReturn['phoneNo'] = _phoneNo;
@@ -62,6 +62,7 @@ class University extends Address{
 
   /// method [_addCourse] can add new course to university
   set _addCourse(Map<String , dynamic> courseDetail) {
+    print(courseDetail['name']);
     var newCourse = Course(
         name: courseDetail['name'],
         duration: courseDetail['duration']);
