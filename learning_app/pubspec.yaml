@@ -27,6 +27,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.7.0
+
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/launcher/icon.png"
+  image_path_android: "assets/launcher/icon.png"
 
 
 # For information on the generic Dart part of this file, see the
@@ -39,6 +46,16 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  fonts:
+    - family: ActorRegular
+      fonts:
+        - asset: fonts/ActorRegular.ttf
+    - family: AleoRegular
+      fonts:
+        - asset: fonts/AleoRegular.ttf
+    - family: RalewayRegular
+      fonts:
+        - asset: fonts/RalewayRegular.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -56,17 +73,13 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+#  fonts:
+#    - family: ActorRegular
+#        fonts:
+#          asset: fonts/ActorRegular.ttf
+#    - family: RalewayRegular
+#        fonts:
+#          asset: fonts/RalewayRegular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
