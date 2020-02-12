@@ -11,7 +11,7 @@ permissions users can access, modify that data.<br>
 So today we are going to use **GraphQL** for building APIs for understating how
 to integrate GraphQL API with Flutter application<br>
 
-####GraphQL Backend Setup 
+#### GraphQL Backend Setup 
 So before getting started we have to setup a GraphQL server and I 
 use  [Apollo Server](https://www.apollographql.com/docs/apollo-server/) as 
 framework.<br>
@@ -74,7 +74,7 @@ server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
 ```
-####Flutter Setup
+#### Flutter Setup
 First, depends on the library by adding this to your packages **pubspec.yaml**:
 **Step 1:** Installation
 ```
@@ -198,6 +198,6 @@ class _MyAppState extends State<MyApp>{
   }
 }
 ```
-#Thank You
+# Thank You
 :relieved::relieved::relieved::relieved:
 
