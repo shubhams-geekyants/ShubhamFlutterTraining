@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:travelapp/service/gql_qery.dart';
+import 'package:travelapp/service/graphql_config.dart';
+import 'package:travelapp/service/mutation_query.dart';
+import 'package:travelapp/storage/token.dart';
 
 import 'package:travelapp/ui/about_us.dart';
-import 'package:travelapp/ui/home.dart';
 import 'package:travelapp/ui/travel_with_us.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -14,19 +18,20 @@ class MainScreen extends StatefulWidget{
 
 class _MainScreenState extends State<MainScreen>{
   int _selectedPage;
+  int _isLoading = 0;
+  GlobalKey _globalKey = GlobalKey();
+  final GraphQLConfig _graphQLConfig = GraphQLConfig();
+  final GraphQLQuery _query = GraphQLQuery();
   WebViewController _controller;
   static List<String> _urlList = [
-    'https://cloud.google.com/',
-    'https://facebook.com'
+    'https://geekyants.com/',
+    'https://geekyants.com/ux',
+    'https://geekyants.com/products',
+    'https://geekyants.com/blog',
+    'https://geekyants.com/team',
+    'https://geekyants.com/current-openings',
   ];
-//  static List<String> _logoList = <String>[
-//    'assets/icons/cloud_engine.png',
-//    'assets/icons/facebook.png',
-//    'assets/icons/google_analytics.png',
-//    'assets/icons/instagram.png',
-//    'assets/icons/linkedin.png',
-//    'assets/icons/twiter.png',
-//  ];
+
   List<Widget> _widgets;
 
   void _onBottomNavigationTap(int index){
@@ -34,6 +39,17 @@ class _MainScreenState extends State<MainScreen>{
       _selectedPage = index;
     });
   }
+
+  Future _getUserData() async{
+    GraphQLClient _client = _graphQLConfig.clientToQuery(token: Token.token);
+    QueryResult _result = await _client.query(
+      QueryOptions(
+        document: _query.getUser()
+      )
+    );
+    return _result;
+  }
+
   dynamic _onSideDrawerTap(int index){
     return (){
       setState(() {
@@ -41,16 +57,82 @@ class _MainScreenState extends State<MainScreen>{
       });
     };
   }
+  void _handleLoadStart(String value) {
+    setState(() {
+      _isLoading = 1;
+    });
+  }
+
+  void _handleLoadFinished(String value) {
+    setState(() {
+      _isLoading = 0;
+    });
+  }
   @override
   void initState() {
+//    if(Token.type != 'ACCESS') Navigator.pushReplacementNamed(context, '/login');
     super.initState();
     _widgets = <Widget>[
-      SafeArea(
-        child: Container(
-//          child: WebView(
-//            initialUrl: 'https://cloud.google.com/',
-//            javascriptMode: JavascriptMode.unrestricted,
-//          ),
+      Scaffold(
+        key: _globalKey,
+        appBar: AppBar(
+          title: Container(
+            child: Row(
+              children: <Widget>[
+                SizedBox(width: 10),
+                Text('TravelApp', style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white
+                )),
+              ],
+            ),
+          ),
+        ),
+        body: SafeArea(
+          child: FutureBuilder(
+            future: _getUserData(),
+            builder: (context,snapshot){
+              if(snapshot.hasData){
+                if(snapshot.data.hasException){
+                  return Center(child: Text('Something went wrong'));
+                }
+                if(!snapshot.data.data['getUser']['isLoggedIn']){
+                  return Center(child: Text('User not loggedin'));
+                } else{
+                  var data = snapshot.data.data['getUser'];
+                  return Center(
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                                padding:EdgeInsets.only(top:30),
+                                child: Text('Name: ${data['name']}')
+                            ),
+                          ),
+                          Center(
+                            child: Container(
+                                padding:EdgeInsets.only(top:30),
+                                child: Text('Email: ${data['email']}')
+                            ),
+                          ),
+                          Center(
+                            child: Container(
+                                padding:EdgeInsets.only(top:30),
+                                child: Text('Mobile No.: ${data['mobileNumber']}')
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
         ),
       ),
       TravelWithUs(),
@@ -65,6 +147,7 @@ class _MainScreenState extends State<MainScreen>{
       DeviceOrientation.portraitDown
     ]);
     return Scaffold(
+
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -86,7 +169,7 @@ class _MainScreenState extends State<MainScreen>{
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                    'Google Colud Engine'
+                    'Home'
                   ),
                 ],
               ),
@@ -97,7 +180,7 @@ class _MainScreenState extends State<MainScreen>{
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                      'Facebook'
+                      'UI\\UX'
                   ),
                 ],
               ),
@@ -108,7 +191,7 @@ class _MainScreenState extends State<MainScreen>{
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                      'Google Analytics'
+                      'Products'
                   ),
                 ],
               ),
@@ -119,7 +202,7 @@ class _MainScreenState extends State<MainScreen>{
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                      'Instagram'
+                      'Blogs'
                   ),
                 ],
               ),
@@ -130,7 +213,7 @@ class _MainScreenState extends State<MainScreen>{
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                      'LinkedIn'
+                      'Team'
                   ),
                 ],
               ),
@@ -141,7 +224,7 @@ class _MainScreenState extends State<MainScreen>{
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                      'Twiter'
+                      'Jobs'
                   ),
                 ],
               ),

@@ -34,7 +34,6 @@ class _TravelWithUsState extends State<TravelWithUs>{
     return  Scaffold(
       appBar: AppBar(
         title: MyAppBar('Travel with us'),
-//        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: Container(
