@@ -198,6 +198,5 @@ class _MyAppState extends State<MyApp>{
   }
 }
 ```
-# Thank You
-:relieved::relieved::relieved::relieved:
+# Thank You :relieved::relieved::relieved::relieved:
 
