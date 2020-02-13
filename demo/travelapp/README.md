@@ -2,7 +2,7 @@
 
 
 ### Getting Started Flutter with GraphQL
-**So, what is GraphQL and why we need integration of GraphQL with Flutter?<br>**
+**So, what is [GraphQL](https://graphql.org/learn/) and why we need integration of GraphQL with Flutter?<br>**
 In simple words Flutter is UI toolkit which manages the UI rendering, state etc... 
 but what if we want to share data among multiple users. So here we have lot of 
 solutions like REST APIs, GraphQL API etc... and in these solution generally 
@@ -76,7 +76,7 @@ server.listen().then(({ url }) => {
 ```
 #### Flutter Setup
 First, depends on the library by adding this to your packages **pubspec.yaml**:
-**Step 1:** Installation
+**Step 1:** Installation of [GraphQL Flutter](https://pub.dev/packages/graphql_flutter)
 ```
 dependencies:
   graphql_flutter: ^3.0.0
@@ -193,5 +193,7 @@ class _MyAppState extends State<MyApp>{
   }
 }
 ```
-# Thank You :relieved::relieved::relieved::relieved:
+### Thank You :relieved::relieved::relieved::relieved:
+Notes: This is Getting started not best practice. Use links 
+for more detailed documentation. 
 

@@ -13,8 +13,8 @@ class GraphQLQuery{
     return '''
       query{
         books{
-          name
           title
+          author
         }
       }
     ''';
