@@ -65,6 +65,19 @@ const resolvers = {
   },
 };
 ```
+**Step 7:** Running the server
+Update package.json file
+```json
+"script":{
+  "start":"node index.js",
+  "dev":"nodemon index.js"
+}
+```
+Run Node sever
+```
+npm run dev `# command to run development server`
+npm start  `# command to run server`
+```
 **Step 6:** Create an instance of ApolloServer
 We've defined our schema, data set, and resolver. Now we just need to provide 
 this information to Apollo Server when we initialize it.
