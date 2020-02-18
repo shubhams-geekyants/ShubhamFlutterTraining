@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.teal,
         ),
-        initialRoute: '/',
+        initialRoute: '/signup-from',
         routes: {
           '/': (context)=>Scaffold(backgroundColor: Colors.white, body: Login()),
           '/login': (context) =>Scaffold(backgroundColor: Colors.white, body: Login()),

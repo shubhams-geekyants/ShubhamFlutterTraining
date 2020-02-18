@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travelapp/service/mutation_query.dart';
-import 'package:travelapp/ui/app_bar.dart';
 import 'package:travelapp/service/graphql_config.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:travelapp/storage/token.dart';
@@ -20,6 +19,26 @@ class _SignUpFromState extends State<SignUpForm>{
   TextEditingController _email = TextEditingController();
   TextEditingController _name = TextEditingController();
   TextEditingController _password = TextEditingController();
+  bool _validEmail = true, _validName = false, _validPassword = false;
+  String _nameError;
+  String _isValidName(){
+    print(_validName);
+    if(_validName){
+      return null;
+    }else{
+      print('hi');
+      if(_name.text.isEmpty){
+        print(_name.text);
+        return 'Name is required';
+      }else{
+        return null;
+      }
+    }
+  }
+
+
+
+
   dynamic _onSubmit(context) {
     return ()async{
       setState(() {
@@ -84,10 +103,6 @@ class _SignUpFromState extends State<SignUpForm>{
 
   @override
   Widget build(BuildContext context) {
-    if(Token.type != 'ADD_USER'){
-      Navigator.pushReplacementNamed(context, '/login');
-      return null;
-    }
     return  SafeArea(
         child: Container(
           color: Colors.white,
@@ -108,9 +123,16 @@ class _SignUpFromState extends State<SignUpForm>{
                         alignment: Alignment.bottomCenter,
                         child: TextField(
                           controller: _name,
+                          onChanged: (String value){
+                            setState(() {
+                              _nameError = _isValidName();
+                            });
+                          },
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                               icon: Icon(Icons.perm_identity),
-                              hintText: 'Name'
+                              hintText: 'Name',
+                              errorText: _nameError,
                           ),
                         ),
                       ),
@@ -119,6 +141,14 @@ class _SignUpFromState extends State<SignUpForm>{
                         alignment: Alignment.bottomCenter,
                         child: TextField(
                           controller: _email,
+                          onChanged: (String value){
+                            setState(() {
+                              _validName = false;
+                              _nameError = _isValidName();
+                              print(_validName);
+                            });
+                          },
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             icon: Icon(Icons.email),
                             hintText: 'Emial'
@@ -131,6 +161,7 @@ class _SignUpFromState extends State<SignUpForm>{
                         child: TextField(
                           obscureText: _secure,
                           controller: _password,
+                          keyboardType: TextInputType.visiblePassword,
                           decoration: InputDecoration(
                             icon: Icon(Icons.lock),
                             suffixIcon: IconButton(

@@ -128,6 +128,7 @@ class _LoginState extends State<Login>{
                       Container(
                         child: TextField(
                           controller: _mobileNumber,
+                          keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             icon: Icon(Icons.phone),
                             hintText: 'Mobile Number',

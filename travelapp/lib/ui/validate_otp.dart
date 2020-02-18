@@ -115,6 +115,7 @@ class _ValidateOtpState extends State<ValidateOtp>{
 //                        alignment: Alignment.bottomCenter,
                         child: TextField(
                           controller: _code,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                               icon: Icon(Icons.lock),
                               errorText: _error,
