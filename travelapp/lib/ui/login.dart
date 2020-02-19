@@ -14,7 +14,11 @@ class Login extends StatefulWidget{
 class _LoginState extends State<Login>{
   TextEditingController _mobileNumber = TextEditingController();
   TextEditingController _password = TextEditingController();
+  TextEditingController _forgetPassword = TextEditingController();
+  TextEditingController _forgetPasswordCnf = TextEditingController();
+  GlobalKey<FormState> _forgetPassKey = GlobalKey<FormState>();
   int _loading = 0;
+  bool _autoValidate = false;
   GraphQLConfig _graphQLConfig = GraphQLConfig();
   GraphQLQuery _graphQLQuery = GraphQLQuery();
   void _onSubmit() async {
@@ -63,6 +67,80 @@ class _LoginState extends State<Login>{
     setState(() {
       _loading = 0;
     });
+  }
+
+  void _onForgetPass(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (context) {
+//        return Container(
+//          child:
+//        );
+        return AlertDialog(
+          title: Text('Reset password'),
+          content: Container(
+            height: 120,
+            child: Form(
+              key: _forgetPassKey,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                      obscureText: true,
+                      controller: _forgetPassword,
+                      autovalidate: _autoValidate,
+                      decoration: InputDecoration(
+                        hintText: 'Password',
+                        prefixIcon: Icon(Icons.lock)
+                      ),
+                      validator: (String value){
+                        print(_forgetPassword.text);
+                        if(_forgetPassword.text == null ||
+                            _forgetPassword.text.isEmpty){
+                          return 'Password is required';
+                        }
+                        return null;
+                      }
+                  ),
+                  TextFormField(
+                    obscureText: true,
+                    controller: _forgetPasswordCnf,
+                    autovalidate: _autoValidate,
+                    decoration: InputDecoration(
+                        hintText: 'Confirm Password',
+                        prefixIcon: Icon(Icons.lock)
+                    ),
+                    validator: (String value){
+                      if(_forgetPasswordCnf.text == null ||
+                          _forgetPasswordCnf.text.isEmpty){
+                        return 'Password is required';
+                      }else if(_forgetPassword.text != _forgetPasswordCnf.text){
+                        return 'Comfirm Password not matched';
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Done'),
+              onPressed: (){
+                if(_forgetPassKey.currentState.validate()){
+                  _forgetPassKey.currentState.save();
+                  Navigator.pop(context);
+                }else{
+                  setState(() {
+                    _autoValidate = true;
+                  });
+                }
+              },
+            )
+          ],
+        );
+      }
+    );
   }
 
   @override
@@ -149,14 +227,19 @@ class _LoginState extends State<Login>{
                       Container(
                         width: 350,
                         margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Text('Forget Password?',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Colors.indigo,
-                              fontWeight: FontWeight.bold,
-                            )
+                        child: GestureDetector(
+                          onTap: (){
+                            _onForgetPass(context);
+                          },
+                          child: Text('Forget Password?',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: Colors.indigo,
+                                fontWeight: FontWeight.bold,
+                              )
+                          ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
