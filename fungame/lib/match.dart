@@ -8,60 +8,118 @@ class Match extends StatefulWidget{
 }
 
 class _Match extends State<Match>{
-  bool isAccepted = false;
-  Map<String, dynamic> _selected;
-  int _score = 0;
+  String _dropData;
+  Map<String, String> _selected;
+  int _score = 0, _life = 3;
   final _random = Random();
-  final List<Map<String, dynamic>> _gameList=[
+  final List<Map<String, String>> _gameList=[
     {
-      'color':Colors.teal,
-      'data': 'teal',
+      'question':'⛱️',
+      'data': '1',
     },
     {
-      'color':Colors.deepOrangeAccent,
-      'data': 'orange',
+      'question':'💣',
+      'data': '2',
     },
     {
-      'color':Colors.blue,
-      'data': 'blue',
+      'question':'🖼️',
+      'data': '3',
     },
     {
-      'color':Colors.amber,
-      'data': 'amber',
+      'question':'🔪',
+      'data': '4',
     },
     {
-      'color':Colors.indigo,
-      'data': 'indigo',
+      'question':'📻',
+      'data': '5',
     },
     {
-      'color':Colors.lightGreen,
-      'data': 'green',
+      'question':'📸',
+      'data': '6',
     },
     {
-      'color':Colors.pink,
-      'data': 'pink',
+      'question':'🔦',
+      'data': '7',
     },
     {
-      'color':Colors.red,
-      'data': 'red',
-    },
-    {
-      'color': Colors.brown,
-      'data': 'brown',
+      'question':'🔑',
+      'data': '8',
     },
   ];
 
   void _onAccept(String data){
-    setState(() {
-      _selected = _gameList[_random.nextInt(_gameList.length)];
-    });
-
+    print(data +':'+_dropData);
+    print('Accepted');
+    if(_life != 0){
+      if(data == _dropData){
+        setState(() {
+          _score = _score+2;
+          _selected = _gameList[_random.nextInt(_gameList.length)];
+        });
+      }
+      else{
+        setState(() {
+          _score--;
+          _life--;
+          _selected = _gameList[_random.nextInt(_gameList.length)];
+        });
+      }
+    }
+    if(_life == 0){
+      popup();
+    }
   }
 
-  void _onReject(String data){
-    setState(() {
-      _selected = _gameList[_random.nextInt(_gameList.length)];
-    });
+  Widget _showLife(){
+    List<Widget>_build = <Widget>[];
+    _build.add(
+        Container(
+          padding: EdgeInsets.all(5),
+          child: Text('Score:\t\t$_score️', style: TextStyle(color: Colors.white)),
+        )
+    );
+    for(var i = 0; i < _life; i++){
+      _build.add(
+          Container(
+            padding: EdgeInsets.all(5),
+            child: Text('❤️'),
+          )
+      );
+    }
+
+    return Container(
+      alignment: Alignment.topRight,
+      padding: EdgeInsets.all(10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: _build
+      ),
+    );
+  }
+
+  void popup(){
+    showDialog(
+      context: context,
+      builder: (context)=>AlertDialog(
+        title: Center(child:Text('Score')),
+        content: Center(
+            heightFactor: .5,
+            child: Text('$_score', style: TextStyle(fontSize: 30))
+        ),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: (){
+              setState(() {
+                _life = 3;
+                _score = 0;
+              });
+              Navigator.pop(context);
+            },
+            child: Text('Reset'),
+          )
+        ],
+      )
+    );
   }
 
   @override
@@ -78,171 +136,45 @@ class _Match extends State<Match>{
         child: Column(
           children: <Widget>[
             Expanded(
-              flex: 3,
+              flex: 9,
               child: Container(
                 child: Center(
-                  child: GridView.count(
+                  child: GridView.builder(
                       primary: false,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        childAspectRatio: 1,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10
+                      ),
                       padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-                      mainAxisSpacing: 30,
-                      crossAxisSpacing: 30,
-                      crossAxisCount: 3,
-                      childAspectRatio: 1/1,
-                      children: <Widget>[
-                        Container(
-                          color: _gameList[0]['color'],
-                          child: DragTarget(
-                            builder:
-                            (context, List<String> candidateData, rejectedData){
-                              return Container();
-                            },
-                            onWillAccept: (String data){
-                              if(data == _gameList[0]['data']){
-                                return true;
-                              }
-                              return false;
-                            },
-                            onAccept: _onAccept,
-                            onLeave: _onReject,
-                          ),
+                      itemCount: _gameList.length,
+                      itemBuilder: (context, index)=>Container(
+                        color: Colors.white,
+                        child: DragTarget(
+                          builder:
+                              (context, List<String> candidateData, rejectedData){
+                            return Container(
+                              child: Center(
+                                child: Text(
+                                    _gameList[index]['question'],
+                                    style: TextStyle(
+                                      fontSize: 30
+                                    )
+                                ),
+                              ),
+                            );
+                          },
+                          onWillAccept: (String data){
+                            setState(() {
+                              _dropData = _gameList[index]['data'];
+                              print(_dropData);
+                            });
+                            return true;
+                          },
+                          onAccept: _onAccept,
                         ),
-                        Container(
-                          color: _gameList[1]['color'],
-                          child: DragTarget(
-                            builder:
-                                (context, List<String> candidateData, rejectedData){
-                              return Container();
-                            },
-                            onWillAccept: (String data){
-                              if(data == _gameList[1]['data']){
-                                return true;
-                              }
-                              return false;
-                            },
-                            onAccept: _onAccept,
-                            onLeave: _onReject,
-                          ),
-                        ),
-                        Container(
-                          color: _gameList[2]['color'],
-                          child: DragTarget(
-                            builder:
-                                (context, List<String> candidateData, rejectedData){
-                              return Container();
-                            },
-                            onWillAccept: (String data){
-                              if(data == _gameList[2]['data']){
-                                return true;
-                              }
-                              return false;
-                            },
-                            onAccept: _onAccept,
-                            onLeave: _onReject,
-                          ),
-                        ),
-                        Container(
-                          color: _gameList[3]['color'],
-                          child: DragTarget(
-                            builder:
-                                (context, List<String> candidateData, rejectedData){
-                              return Container();
-                            },
-                            onWillAccept: (String data){
-                              if(data == _gameList[3]['data']){
-                                return true;
-                              }
-                              return false;
-                            },
-                            onAccept: _onAccept,
-                            onLeave: _onReject,
-                          ),
-                        ),
-                        Container(
-                          color: _gameList[4]['color'],
-                          child: DragTarget(
-                            builder:
-                                (context, List<String> candidateData, rejectedData){
-                              return Container();
-                            },
-                            onWillAccept: (String data){
-                              if(data == _gameList[4]['data']){
-                                return true;
-                              }
-                              return false;
-                            },
-                            onAccept: _onAccept,
-                            onLeave: _onReject,
-                          ),
-                        ),
-                        Container(
-                          color: _gameList[5]['color'],
-                          child: DragTarget(
-                            builder:
-                                (context, List<String> candidateData, rejectedData){
-                              return Container();
-                            },
-                            onWillAccept: (String data){
-                              if(data == _gameList[5]['data']){
-                                return true;
-                              }
-                              return false;
-                            },
-                            onAccept: _onAccept,
-                            onLeave: _onReject,
-                          ),
-                        ),
-                        Container(
-                          color: _gameList[6]['color'],
-                          child: DragTarget(
-                            builder:
-                                (context, List<String> candidateData, rejectedData){
-                              return Container();
-                            },
-                            onWillAccept: (String data){
-                              if(data == _gameList[6]['data']){
-                                return true;
-                              }
-                              return false;
-                            },
-                            onAccept: _onAccept,
-                            onLeave: _onReject,
-                          ),
-                        ),
-                        Container(
-                          color: _gameList[7]['color'],
-                          child: DragTarget(
-                            builder:
-                                (context, List<String> candidateData, rejectedData){
-                              return Container();
-                            },
-                            onWillAccept: (String data){
-                              if(data == _gameList[7]['data']){
-                                return true;
-                              }
-                              return false;
-                            },
-                            onAccept: _onAccept,
-                            onLeave: _onReject,
-                          ),
-                        ),
-                        Container(
-                          color: _gameList[8]['color'],
-                          child: DragTarget(
-                            builder:
-                                (context, List<String> candidateData, rejectedData){
-                              return Container();
-                            },
-                            onWillAccept: (String data){
-                              if(data == _gameList[8]['data']){
-                                return true;
-                              }
-                              return false;
-                            },
-                            onAccept: _onAccept,
-                            onLeave: _onReject,
-                          ),
-                        ),
-                      ],
+                      ),
                   ),
                 ),
               ),
@@ -251,25 +183,45 @@ class _Match extends State<Match>{
 //              width: 80,
 //              height: 80,
 //              color: Colors.white,
-              margin:EdgeInsets.only(bottom: 200),
+              padding: EdgeInsets.only(bottom: 30),
               child: Draggable(
                 data: _selected['data'],
                 child: Container(
                   width: 80,
                   height: 80,
-                  color: Colors.blue,
-                  child: Center(child: Text(_selected['data'], style: Theme.of(context).textTheme.headline,),),
+                  color: Colors.white,
+                  child: Center(
+                    child: Text(
+                      '⁉️',
+                      style: TextStyle(
+                        fontSize: 30
+                      ),
+                    ),
+                  ),
                 ),
                 childWhenDragging: Container(),
                 feedback: Container(
                   child: Center(
-                    child: Text(_selected['data'], style: Theme.of(context).textTheme.headline,),),
-                  color: Colors.blue[300],
+                    child: Text(
+                      '⁉️',
+                      style: TextStyle(
+                          fontSize: 30
+                      ),
+                    ),
+                  ),
+                  color: Colors.white70,
                   width: 80,
                   height: 80,
                 ),
               ),
             ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                child: _showLife(),
+              ),
+            )
           ],
         ),
       ),

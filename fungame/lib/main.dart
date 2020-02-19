@@ -13,7 +13,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.indigo,
       ),
       home: Scaffold(
-        body: Match(),
+          appBar:AppBar(title: Text('Try your luck')),
+          body: Match(),
       ),
     );
   }
